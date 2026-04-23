@@ -24,7 +24,7 @@ public:
       if(penalty < min_penalty)
       {
         min_penalty = penalty;
-        best_hour = j + 1;
+        best_hour = j + 1; // we are basically calculating the closing time here ki till here we can close
       }
   }
 
