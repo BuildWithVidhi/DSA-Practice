@@ -1,2 +1,2 @@
 # DSA-Practice
-90 days target to crack FAANG
+90 days target to build strong problem solving skills
