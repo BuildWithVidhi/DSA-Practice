@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+        int n= nums.size();
+        vector<int>sorted = nums;
+        
+        //sort the array and store
+        sort(sorted.begin(),sorted.end());
+
+        //bool isSorted = true;
+        //rotate and compare with sorted array
+        for(int rotationoffset=0; rotationoffset< n; rotationoffset++){
+            bool isSorted = true;
+            for(int index=0; index<n ; index++){
+                if(nums[(rotationoffset+index)% n] != sorted[index]){
+                    isSorted = false;
+                    break;
+                }
+            }
+            if(isSorted){
+                return true;
+            }
+        }
+        return false;
+    }
+};
