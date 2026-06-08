@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+        int n= nums.size();
+        vector<int>checksorted(n);
+        //copying the contents of nums into checksorted after rotating in two loops
+        for(int rotationoffset=0; rotationoffset< n;rotationoffset++)
+        {
+            int currIndex=0;
+            //copying from rotationoffset ---> end of the array
+            for(int index = rotationoffset; index<n;index++)
+            {
+                checksorted[currIndex++]= nums[index];
+            }
+            //copying from 0 ---> rotatationoffset
+            for(int index = 0; index < rotationoffset ; index++)
+            {
+                checksorted[currIndex++]= nums[index];
+            }
+
+            //now check for every rotatation whether it is sorted or not
+            bool isSorted = true;
+            for(int i=0; i<n-1;i++)
+            {
+                if(checksorted[i]>checksorted[i+1])
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+            if(isSorted){
+                return true;
+            }
+        }
+        return false;
+        
+    }
+};
