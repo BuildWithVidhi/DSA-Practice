@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
+        int ans = 0;
+
+        vector<int> indegree(n + 1, 0), completionTime(n + 1, 0);
+        vector<vector<int>> adj(n + 1);
+
+        // Build graph
+        for (auto &v : relations) {
+            indegree[v[1]]++;
+            adj[v[0]].push_back(v[1]);
+        }
+
+        queue<int> q;
+
+        // Push nodes having indegree 0
+        for (int i = 1; i <= n; i++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        // Kahn's Algorithm + DP
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (auto neigh : adj[node]) {
+                completionTime[neigh] = max(completionTime[neigh],
+                                            completionTime[node] + time[node - 1]);
+
+                indegree[neigh]--;
+
+                if (indegree[neigh] == 0)
+                    q.push(neigh);
+            }
+        }
+
+        for (int i = 1; i <= n; i++)
+            ans = max(ans, completionTime[i] + time[i - 1]);
+
+        return ans;
+    }
+};
