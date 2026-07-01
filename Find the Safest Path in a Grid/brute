@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int n;
+    int ans = 0;
+    vector<pair<int,int>> thieves;
+
+    int dfs(int x, int y, vector<vector<int>>& vis, int currSafe){
+
+        if(x == n-1 && y == n-1)
+            return currSafe;
+
+        vis[x][y] = 1;
+
+        int dx[4] = {1,-1,0,0};
+        int dy[4] = {0,0,1,-1};
+
+        int best = -1;
+
+        for(int k=0;k<4;k++){
+
+            int nx = x + dx[k];
+            int ny = y + dy[k];
+
+            if(nx<0 || ny<0 || nx>=n || ny>=n || vis[nx][ny])
+                continue;
+
+            int nearest = INT_MAX;
+
+            for(auto &t: thieves){
+                nearest = min(nearest,
+                              abs(nx-t.first)+abs(ny-t.second));
+            }
+
+            best = max(best,
+                       dfs(nx,ny,vis,min(currSafe,nearest)));
+        }
+
+        vis[x][y]=0;
+
+        return best;
+    }
+
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+
+        n = grid.size();
+
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                if(grid[i][j])
+                    thieves.push_back({i,j});
+
+        int startSafe = INT_MAX;
+
+        for(auto &t: thieves)
+            startSafe=min(startSafe,
+                abs(t.first)+abs(t.second));
+
+        vector<vector<int>> vis(n,vector<int>(n,0));
+
+        return dfs(0,0,vis,startSafe);
+    }
+};
