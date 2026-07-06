@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int numRescueBoats(vector<int>& nums, int limit) {
+        int cnt = 0, n = nums.size();
+
+        int st = 0, end = n - 1;
+
+        sort(nums.begin(), nums.end());
+
+        while (st <= end) {
+
+            if (nums[st] + nums[end] <= limit) {
+                cnt++;
+                st++;
+                end--;
+            }
+            else {
+                cnt++;
+                end--;
+            }
+        }
+
+        return cnt;
+    }
+};
