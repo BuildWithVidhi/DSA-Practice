@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> concatenateNonZero(vector<vector<int>>& queries, string s) {
+
+        const long long MOD = 1e9+7;
+
+        vector<int> ans;
+
+        for(auto q : queries)
+        {
+            int l = q[0];
+            int r = q[1];
+
+            long long num = 0;
+            long long sum = 0;
+
+            for(int i=l;i<=r;i++)
+            {
+                if(s[i]!='0')
+                {
+                    int digit = s[i]-'0';
+
+                    num = (num*10 + digit)%MOD;
+                    sum += digit;
+                }
+            }
+
+            ans.push_back((num*sum)%MOD);
+        }
+
+        return ans;
+    }
+};
