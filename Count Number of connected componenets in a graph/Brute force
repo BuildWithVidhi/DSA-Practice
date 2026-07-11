@@ -1,0 +1,64 @@
+class Solution {
+public:
+    unordered_map<int, vector<int>> graph;
+    unordered_set<long long> edges;
+    vector<bool> vis;
+
+    void dfs(int node, vector<int>& comp) {
+        vis[node] = true;
+        comp.push_back(node);
+
+        for (int nei : graph[node]) {
+            if (!vis[nei])
+                dfs(nei, comp);
+        }
+    }
+
+    int countCompleteComponents(int n, vector<vector<int>>& edgeList) {
+
+        for (auto &e : edgeList) {
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
+
+            int u = min(e[0], e[1]);
+            int v = max(e[0], e[1]);
+
+            edges.insert(1LL * u * n + v);
+        }
+
+        vis.assign(n, false);
+
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            if (vis[i]) continue;
+
+            vector<int> comp;
+
+            dfs(i, comp);
+
+            bool ok = true;
+
+            int k = comp.size();
+
+            for (int a = 0; a < k && ok; a++) {
+
+                for (int b = a + 1; b < k; b++) {
+
+                    int u = min(comp[a], comp[b]);
+                    int v = max(comp[a], comp[b]);
+
+                    if (!edges.count(1LL * u * n + v)) {
+                        ok = false;
+                        break;
+                    }
+                }
+            }
+
+            if (ok) ans++;
+        }
+
+        return ans;
+    }
+};
