@@ -1,0 +1,58 @@
+class Solution {
+public:
+    vector<vector<int>> graph;
+    vector<bool> vis;
+
+    void dfs(int node, vector<int>& comp) {
+
+        vis[node] = true;
+        comp.push_back(node);
+
+        for (int nei : graph[node]) {
+
+            if (!vis[nei])
+                dfs(nei, comp);
+        }
+    }
+
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+
+        graph.resize(n);
+
+        for (auto &e : edges) {
+
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
+        }
+
+        vis.assign(n, false);
+
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            if (vis[i]) continue;
+
+            vector<int> comp;
+
+            dfs(i, comp);
+
+            int sz = comp.size();
+
+            bool ok = true;
+
+            for (int node : comp) {
+
+                if (graph[node].size() != sz - 1) {
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok)
+                ans++;
+        }
+
+        return ans;
+    }
+};
