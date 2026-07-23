@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findLeftRotation(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0;
+        int high = n - 1;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums[mid] > nums[high]) {
+                // Minimum lies to the right
+                low = mid + 1;
+            } else {
+                // Minimum is at mid or to the left
+                high = mid;
+            }
+        }
+
+        int minIndex = low;
+
+        // Convert minimum index to left rotations
+        return (n - minIndex) % n;
+    }
+};
