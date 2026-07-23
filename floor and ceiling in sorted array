@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> getFloorAndCeil(vector<int> nums, int x) {
+        int low = 0;
+        int high = nums.size()-1;
+        int mid = 0;
+        int n= nums.size();
+
+        while(low<=high)
+        {
+            mid = low + (high-low)/2;
+            if(nums[mid] == x)
+            {
+                return {nums[mid],nums[mid]};
+            }
+            if(nums[mid] > x)
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        
+        if(high == -1)
+        {
+            return{-1, nums[low]};
+        }
+        else if (low == n)
+        {
+            return{nums[high], -1};
+        }
+        else{
+            return {nums[high],nums[low]};
+        
+        }
+    }
+};
