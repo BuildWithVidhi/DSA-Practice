@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxProduct(int n) {
+        int maxproduct = 0;
+        int largest =-1;
+        int secondlargest = -1;
+
+        while(n>0)
+        {
+            int rem = n%10;
+
+            if(rem >= largest)
+            {
+                secondlargest = largest;
+                largest = rem;
+            }
+            else if(rem >= secondlargest)
+            {
+                secondlargest = rem;
+            }            
+            n = n/10;
+        }
+        return secondlargest * largest;
+    }
+};
